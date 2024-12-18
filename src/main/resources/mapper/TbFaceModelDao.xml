@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ankers.emos.wx.db.dao.TbFaceModelDao">
+  <insert id="insert" parameterType="com.ankers.emos.wx.db.pojo.TbFaceModel">
+    insert into tb_face_model set user_id = #{userId}, face_model = #{faceModel};
+  </insert>
+  <delete id="deleteFaceModel">
+    delete from tb_face_model where face_model = #{faceModel};
+  </delete>
+
+  <select id="searchFaceModel" parameterType="int" resultType="java.lang.String">
+    select face_model from tb_face_model where user_id = #{userId};
+  </select>
+</mapper>

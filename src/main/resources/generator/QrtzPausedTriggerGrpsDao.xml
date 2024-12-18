@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generate.QrtzPausedTriggerGrpsDao">
+  <resultMap id="BaseResultMap" type="generate.QrtzPausedTriggerGrpsKey">
+    <id column="SCHED_NAME" jdbcType="VARCHAR" property="schedName" />
+    <id column="TRIGGER_GROUP" jdbcType="VARCHAR" property="triggerGroup" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="generate.QrtzPausedTriggerGrpsKey">
+    delete from qrtz_paused_trigger_grps
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="SCHED_NAME" keyProperty="schedName" parameterType="generate.QrtzPausedTriggerGrpsKey" useGeneratedKeys="true">
+    insert into qrtz_paused_trigger_grps (TRIGGER_GROUP)
+    values (#{triggerGroup,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="SCHED_NAME" keyProperty="schedName" parameterType="generate.QrtzPausedTriggerGrpsKey" useGeneratedKeys="true">
+    insert into qrtz_paused_trigger_grps
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="triggerGroup != null">
+        TRIGGER_GROUP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="triggerGroup != null">
+        #{triggerGroup,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

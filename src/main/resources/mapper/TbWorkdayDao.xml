@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ankers.emos.wx.db.dao.TbWorkdayDao">
+  <select id="searchTodayIsWorkday" resultType="integer">
+    select id from tb_workday where date = CURRENT_DATE limit 1;
+  </select>
+  <select id="searchWorkdayInRange" parameterType="hashmap" resultType="java.lang.String">
+    SELECT date
+    FROM tb_workday
+    WHERE date BETWEEN #{startDate} AND #{endDate}
+  </select>
+</mapper>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generate.QrtzJobDetailsDao">
+  <resultMap id="BaseResultMap" type="generate.QrtzJobDetails">
+    <id column="SCHED_NAME" jdbcType="VARCHAR" property="schedName" />
+    <id column="JOB_NAME" jdbcType="VARCHAR" property="jobName" />
+    <id column="JOB_GROUP" jdbcType="VARCHAR" property="jobGroup" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="JOB_CLASS_NAME" jdbcType="VARCHAR" property="jobClassName" />
+    <result column="IS_DURABLE" jdbcType="VARCHAR" property="isDurable" />
+    <result column="IS_NONCONCURRENT" jdbcType="VARCHAR" property="isNonconcurrent" />
+    <result column="IS_UPDATE_DATA" jdbcType="VARCHAR" property="isUpdateData" />
+    <result column="REQUESTS_RECOVERY" jdbcType="VARCHAR" property="requestsRecovery" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="generate.QrtzJobDetails">
+    <result column="JOB_DATA" jdbcType="BLOB" property="jobData" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SCHED_NAME, JOB_NAME, JOB_GROUP, DESCRIPTION, JOB_CLASS_NAME, IS_DURABLE, IS_NONCONCURRENT, 
+    IS_UPDATE_DATA, REQUESTS_RECOVERY
+  </sql>
+  <sql id="Blob_Column_List">
+    JOB_DATA
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="generate.QrtzJobDetailsKey" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from qrtz_job_details
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and JOB_NAME = #{jobName,jdbcType=VARCHAR}
+      and JOB_GROUP = #{jobGroup,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="generate.QrtzJobDetailsKey">
+    delete from qrtz_job_details
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and JOB_NAME = #{jobName,jdbcType=VARCHAR}
+      and JOB_GROUP = #{jobGroup,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="SCHED_NAME" keyProperty="schedName" parameterType="generate.QrtzJobDetails" useGeneratedKeys="true">
+    insert into qrtz_job_details (JOB_NAME, JOB_GROUP, DESCRIPTION, 
+      JOB_CLASS_NAME, IS_DURABLE, IS_NONCONCURRENT, 
+      IS_UPDATE_DATA, REQUESTS_RECOVERY, JOB_DATA
+      )
+    values (#{jobName,jdbcType=VARCHAR}, #{jobGroup,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{jobClassName,jdbcType=VARCHAR}, #{isDurable,jdbcType=VARCHAR}, #{isNonconcurrent,jdbcType=VARCHAR}, 
+      #{isUpdateData,jdbcType=VARCHAR}, #{requestsRecovery,jdbcType=VARCHAR}, #{jobData,jdbcType=BLOB}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="SCHED_NAME" keyProperty="schedName" parameterType="generate.QrtzJobDetails" useGeneratedKeys="true">
+    insert into qrtz_job_details
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jobName != null">
+        JOB_NAME,
+      </if>
+      <if test="jobGroup != null">
+        JOB_GROUP,
+      </if>
+      <if test="description != null">
+        DESCRIPTION,
+      </if>
+      <if test="jobClassName != null">
+        JOB_CLASS_NAME,
+      </if>
+      <if test="isDurable != null">
+        IS_DURABLE,
+      </if>
+      <if test="isNonconcurrent != null">
+        IS_NONCONCURRENT,
+      </if>
+      <if test="isUpdateData != null">
+        IS_UPDATE_DATA,
+      </if>
+      <if test="requestsRecovery != null">
+        REQUESTS_RECOVERY,
+      </if>
+      <if test="jobData != null">
+        JOB_DATA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jobName != null">
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobGroup != null">
+        #{jobGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="jobClassName != null">
+        #{jobClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDurable != null">
+        #{isDurable,jdbcType=VARCHAR},
+      </if>
+      <if test="isNonconcurrent != null">
+        #{isNonconcurrent,jdbcType=VARCHAR},
+      </if>
+      <if test="isUpdateData != null">
+        #{isUpdateData,jdbcType=VARCHAR},
+      </if>
+      <if test="requestsRecovery != null">
+        #{requestsRecovery,jdbcType=VARCHAR},
+      </if>
+      <if test="jobData != null">
+        #{jobData,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="generate.QrtzJobDetails">
+    update qrtz_job_details
+    <set>
+      <if test="description != null">
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="jobClassName != null">
+        JOB_CLASS_NAME = #{jobClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDurable != null">
+        IS_DURABLE = #{isDurable,jdbcType=VARCHAR},
+      </if>
+      <if test="isNonconcurrent != null">
+        IS_NONCONCURRENT = #{isNonconcurrent,jdbcType=VARCHAR},
+      </if>
+      <if test="isUpdateData != null">
+        IS_UPDATE_DATA = #{isUpdateData,jdbcType=VARCHAR},
+      </if>
+      <if test="requestsRecovery != null">
+        REQUESTS_RECOVERY = #{requestsRecovery,jdbcType=VARCHAR},
+      </if>
+      <if test="jobData != null">
+        JOB_DATA = #{jobData,jdbcType=BLOB},
+      </if>
+    </set>
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and JOB_NAME = #{jobName,jdbcType=VARCHAR}
+      and JOB_GROUP = #{jobGroup,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="generate.QrtzJobDetails">
+    update qrtz_job_details
+    set DESCRIPTION = #{description,jdbcType=VARCHAR},
+      JOB_CLASS_NAME = #{jobClassName,jdbcType=VARCHAR},
+      IS_DURABLE = #{isDurable,jdbcType=VARCHAR},
+      IS_NONCONCURRENT = #{isNonconcurrent,jdbcType=VARCHAR},
+      IS_UPDATE_DATA = #{isUpdateData,jdbcType=VARCHAR},
+      REQUESTS_RECOVERY = #{requestsRecovery,jdbcType=VARCHAR},
+      JOB_DATA = #{jobData,jdbcType=BLOB}
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and JOB_NAME = #{jobName,jdbcType=VARCHAR}
+      and JOB_GROUP = #{jobGroup,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="generate.QrtzJobDetails">
+    update qrtz_job_details
+    set DESCRIPTION = #{description,jdbcType=VARCHAR},
+      JOB_CLASS_NAME = #{jobClassName,jdbcType=VARCHAR},
+      IS_DURABLE = #{isDurable,jdbcType=VARCHAR},
+      IS_NONCONCURRENT = #{isNonconcurrent,jdbcType=VARCHAR},
+      IS_UPDATE_DATA = #{isUpdateData,jdbcType=VARCHAR},
+      REQUESTS_RECOVERY = #{requestsRecovery,jdbcType=VARCHAR}
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and JOB_NAME = #{jobName,jdbcType=VARCHAR}
+      and JOB_GROUP = #{jobGroup,jdbcType=VARCHAR}
+  </update>
+</mapper>

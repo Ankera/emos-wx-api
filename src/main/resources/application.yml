@@ -1,0 +1,71 @@
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8
+    threads:
+      max: 200
+      min-spare: 30
+    connection-timeout: 5000ms
+  servlet:
+    context-path: /emos-wx-api
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/emos?useSSL=false
+    username: root
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 1000
+        max-wait: -1ms
+        max-idle: 16
+        min-idle: 8
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: emos
+      authentication-database: admin
+      username: admin
+      password: 12345678
+  mail:
+    default-encoding: UTF-8
+    host: smtp.aliyun.com
+    username: yuyayong@aliyun.com
+    password: yuyayong199116
+
+mybatis:
+  type-aliases-package: com.ankers.emos.wx.db.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mapper/*.xml
+
+logging:
+  level:
+    root: info
+    com.ankers.emos.wx.db.dao: warn
+  pattern:
+    console: "[INFO-时间] %d{MM-dd HH:mm:ss:SSS}  %-5level  %msg%n"
+
+emos:
+  jwt:
+    secret: abc123456
+    expire: 5
+    cache-expire: 10
+  face:
+    createFaceModelUrl: http://CentOS的IP地址:3000/create_face_model
+    checkinUrl: http://CentOS的IP地址:3000/checkin
+  email:
+    system: yuyayong@aliyun.com
+    hr: yuyayong@aliyun.com
+  image-folder: /Users/yuyayong/Desktop/images
+
+wx:
+  app-id: wxb37b56c05ee436cd
+  app-secret: 9e1cdb5b27d7f0317c55ab901e5623e7

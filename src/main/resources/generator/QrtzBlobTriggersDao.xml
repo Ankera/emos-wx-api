@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generate.QrtzBlobTriggersDao">
+  <resultMap id="BaseResultMap" type="generate.QrtzBlobTriggers">
+    <id column="SCHED_NAME" jdbcType="VARCHAR" property="schedName" />
+    <id column="TRIGGER_NAME" jdbcType="VARCHAR" property="triggerName" />
+    <id column="TRIGGER_GROUP" jdbcType="VARCHAR" property="triggerGroup" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="generate.QrtzBlobTriggers">
+    <result column="BLOB_DATA" jdbcType="BLOB" property="blobData" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SCHED_NAME, `TRIGGER_NAME`, TRIGGER_GROUP
+  </sql>
+  <sql id="Blob_Column_List">
+    BLOB_DATA
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="generate.QrtzBlobTriggersKey" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from qrtz_blob_triggers
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and `TRIGGER_NAME` = #{triggerName,jdbcType=VARCHAR}
+      and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="generate.QrtzBlobTriggersKey">
+    delete from qrtz_blob_triggers
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and `TRIGGER_NAME` = #{triggerName,jdbcType=VARCHAR}
+      and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="SCHED_NAME" keyProperty="schedName" parameterType="generate.QrtzBlobTriggers" useGeneratedKeys="true">
+    insert into qrtz_blob_triggers (`TRIGGER_NAME`, TRIGGER_GROUP, BLOB_DATA
+      )
+    values (#{triggerName,jdbcType=VARCHAR}, #{triggerGroup,jdbcType=VARCHAR}, #{blobData,jdbcType=BLOB}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="SCHED_NAME" keyProperty="schedName" parameterType="generate.QrtzBlobTriggers" useGeneratedKeys="true">
+    insert into qrtz_blob_triggers
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="triggerName != null">
+        `TRIGGER_NAME`,
+      </if>
+      <if test="triggerGroup != null">
+        TRIGGER_GROUP,
+      </if>
+      <if test="blobData != null">
+        BLOB_DATA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="triggerName != null">
+        #{triggerName,jdbcType=VARCHAR},
+      </if>
+      <if test="triggerGroup != null">
+        #{triggerGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="blobData != null">
+        #{blobData,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="generate.QrtzBlobTriggers">
+    update qrtz_blob_triggers
+    <set>
+      <if test="blobData != null">
+        BLOB_DATA = #{blobData,jdbcType=BLOB},
+      </if>
+    </set>
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and `TRIGGER_NAME` = #{triggerName,jdbcType=VARCHAR}
+      and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="generate.QrtzBlobTriggers">
+    update qrtz_blob_triggers
+    set BLOB_DATA = #{blobData,jdbcType=BLOB}
+    where SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+      and `TRIGGER_NAME` = #{triggerName,jdbcType=VARCHAR}
+      and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+  </update>
+</mapper>

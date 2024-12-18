@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ankers.emos.wx.db.dao.TbUserDao">
+  <select id="haveRootUser" resultType="boolean">
+    select if(count(*), true, false) from emos.tb_user where root = 1;
+  </select>
+
+  <select id="searchIdByOpenId" parameterType="java.lang.String" resultType="integer">
+    select id from emos.tb_user where open_id = "${openId}" and status = 1;
+  </select>
+  <select id="searchUserPermissions" resultType="java.lang.String">
+    select DISTINCT p.permission_name from tb_user as u
+    JOIN tb_role as r ON JSON_CONTAINS(u.role, CAST(r.id as CHAR))
+    JOIN tb_permission as p on JSON_CONTAINS(r.permissions, CAST(p.id as CHAR ))
+    where u.id = #{userId} and u.status = 1;
+  </select>
+  <select id="searchById" parameterType="int" resultType="com.ankers.emos.wx.db.pojo.TbUser">
+    SELECT
+      id, open_id, nickname, photo, name, sex, tel, role, root, dept_id, status, create_time
+    FROM tb_user WHERE id=#{userId} AND status=1
+  </select>
+  <select id="searchNameAndDept" parameterType="int" resultType="java.util.HashMap">
+    select u.name, d.dept_name
+    from tb_user as u left join tb_dept as d on u.dept_id = d.id
+    where u.id =#{userId} and u.status = 1;
+  </select>
+  <select id="searchUserHiredate" parameterType="int" resultType="java.lang.String">
+    select hiredate from tb_user where id = #{userId} and status = 1;
+  </select>
+  <select id="searchUserSummary" resultType="java.util.HashMap">
+    select
+      u.name,
+      u.photo,
+      d.dept_name as deptName
+    from tb_user as u left join tb_dept as d on u.dept_id = d.id
+    where u.id = #{userId} and u.status = 1;
+  </select>
+  <select id="searchUserGroupByDept" resultType="java.util.HashMap">
+
+  </select>
+  <select id="searchMembers" resultType="java.util.HashMap">
+
+  </select>
+  <select id="searchUserInfo" resultType="java.util.HashMap">
+
+  </select>
+  <select id="searchDeptManagerId" resultType="java.lang.Integer">
+
+  </select>
+  <select id="searchGmId" resultType="java.lang.Integer">
+
+  </select>
+  <select id="selectUserPhotoAndName" resultType="java.util.HashMap">
+
+  </select>
+  <select id="searchMemberEmail" resultType="java.lang.String">
+
+  </select>
+
+  <insert id="insert" parameterType="HashMap">
+    INSERT INTO tb_user
+    SET
+    <if test="openId!=null">
+      open_id = #{openId},
+    </if>
+    <if test="nickname!=null">
+      nickname = #{nickname},
+    </if>
+    <if test="photo!=null">
+      photo = #{photo},
+    </if>
+    <if test="name!=null">
+      name = #{name},
+    </if>
+    <if test="sex!=null">
+      sex = #{sex},
+    </if>
+    <if test="tel!=null">
+      tel = #{tel},
+    </if>
+    <if test="email!=null">
+      email=#{email},
+    </if>
+    <if test="hiredate!=null">
+      hiredate = #{hiredate},
+    </if>
+    role = #{role},
+    root = #{root},
+    <if test="deptName!=null">
+      dept_id = ( SELECT id FROM tb_dept WHERE dept_name = #{deptName} ),
+    </if>
+    status = #{status},
+    create_time = #{createTime}
+  </insert>
+</mapper>
