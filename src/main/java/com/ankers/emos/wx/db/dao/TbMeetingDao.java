@@ -3,17 +3,27 @@ package com.ankers.emos.wx.db.dao;
 import com.ankers.emos.wx.db.pojo.TbMeeting;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 @Mapper
 public interface TbMeetingDao {
-    int deleteByPrimaryKey(Long id);
+    int insertMeeting(TbMeeting entity);
 
-    int insert(TbMeeting record);
+    ArrayList<HashMap> searchMyMeetingListByPage(HashMap param);
 
-    int insertSelective(TbMeeting record);
+    boolean searchMeetingMembersInSameDept(String uuid);
 
-    TbMeeting selectByPrimaryKey(Long id);
+    int updateMeetingInstanceId(HashMap map);
 
-    int updateByPrimaryKeySelective(TbMeeting record);
+    HashMap searchMeetingById(int id);
 
-    int updateByPrimaryKey(TbMeeting record);
+    ArrayList<HashMap> searchMeetingMembers(int id);
+
+    int updateMeetingInfo(HashMap param);
+
+    int deleteMeetingById(int id);
+
+    List<String> searchUserMeetingInMonth(HashMap param);
 }

@@ -29,10 +29,10 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database: emos
+      database: admin
       authentication-database: admin
       username: admin
-      password: 12345678
+      password: "12345678"
   mail:
     default-encoding: UTF-8
     host: smtp.aliyun.com

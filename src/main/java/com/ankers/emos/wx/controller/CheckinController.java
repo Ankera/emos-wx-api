@@ -24,7 +24,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -128,7 +127,7 @@ public class CheckinController {
 
         DateTime hiredate = DateUtil.parse(userService.searchUserHiredate(userId));
         DateTime startDate = DateUtil.beginOfWeek(DateUtil.date());
-        if (hiredate.isBefore(startDate)) {
+        if (hiredate != null && hiredate.isBefore(startDate)) {
             startDate = hiredate;
         }
 

@@ -133,8 +133,8 @@ public class CheckinServiceImpl implements CheckinService {
             // 发送邮件
 
             HashMap<String, String> map = userDao.searchNameAndDept(userId);
-            String name = map.get("name");
-            String deptName = map.get("dept_name");
+            String name = map == null ? null : map.get("name");
+            String deptName = map == null ? null : map.get("dept_name");
             deptName = deptName != null ? deptName : "";
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(hrEmail);
